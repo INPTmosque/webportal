@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> inpt.org.in</title>
+    <style>
+        /* Base Styling and Fonts */
+        body {
+            font-family: 'Arial Unicode MS', sans-serif; /* Fallback for Tamil fonts */
+            margin: 0;
+            padding: 0;
+            
+            /* --- NEW BACKGROUND IMAGE AND DIMMING SETUP --- */
+            
+            /* Ensure body covers the viewport for background image visibility */
+            min-height: 100vh;
+            
+            /* 1. Set the background image (use your absolute path here) */
+            /*background-image: url('file:///storage/emulated/0/websiteTEST/inpt_mosques.png');*/
+            background-image: url('file:./inpt_new_mosque.jpg');
+            background-size: cover; /* Make sure the image covers the entire screen */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat;
+            
+            /* 2. Set body to relative so the dimming overlay can be absolutely positioned */
+            position: relative; 
+            
+            /* Set a fallback color if the image fails to load */
+            background-color: #333; /* Dark fallback color */
+            
+            color: #333;
+        }
+
+        /* 3. Dimming Overlay - Applied to the entire background */
+        body::before {
+            content: ''; /* Required for :before pseudo-element */
+            position: absolute; /* Positions the overlay over the body */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            
+            /* Adjust the 0.5 value (50% opacity) for lighter or darker dimming */
+            background-color: rgba(0, 0, 0, 0.5); 
+            z-index: -1; /* Puts the overlay behind all other content */
+        }
+        /* --- END NEW BACKGROUND IMAGE SETUP --- */
+
+
+        /* Top Centered Line (Bismillah) */
+        .bismillah {
+            text-align: center;
+            padding: 10px 0;
+            font-size: 0.9em;
+            color: #fff; /* Changed to white for better visibility over dark dimming */
+        }
+
+        /* Header/Title */
+        .header-title {
+            text-align: center;
+            padding: 20px 10px;
+            background-color:#096C6C; /* Dark Teal/Green (Kept opaque for contrast) */
+            color: white;
+            /* Optional: Add text shadow if title text is hard to read over the image */
+            /* text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); */
+        }
+
+        .header-title h1 {
+            font-size: 2.5em; /* Default/Desktop Big letters */
+            font-weight: bold;
+            margin: 0;
+            line-height: 1.2;
+            text-align: centre;
+        }
+    
+        .header-title h2 {
+            font-size: 1.25em; /* Default/Desktop Big letters */
+            font-weight: bold;
+            margin: 0;
+            line-height: 1.2;
+            text-align: centre;
+        }
+       .header-title h3 {
+            font-size: 1em; /* Default/Desktop Big letters */
+            font-weight: bold;
+            margin: 0;
+            line-height: 1.2;
+            text-align: centre;
+        }
+
+        /* --- Navigation Styling --- */
+        nav {
+            background-color: #4682B4 ; /* Steel Blue (Kept opaque for contrast) */
+        }
+
+        /* Desktop Menu (Horizontal) */
+        .menu-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none; /* Hide by default, shown for desktop */
+            justify-content: center;
+            text-align: center;
+        }
+
+        .menu-item {
+            position: relative;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .menu-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .menu-item:hover {
+            background-color: #940d5c;
+        }
+
+        /* Sub-Menu Styling - Level 1 */
+        .sub-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #CF853A; /* Sub-menu background (Kept opaque) */
+            min-width: 180px;
+            z-index: 10;
+            text-align: left;
+            padding: 0;
+            list-style: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Sub-Menu Styling - Level 2 (Nested Menu) */
+        .sub-menu .sub-menu {
+            top: 0; /* Align to the top of the parent sub-menu item */
+            left: 100%; /* Position to the right of the parent sub-menu item */
+            min-width: 220px; /* Slightly wider for the nested items */
+        }
+
+
+        .sub-menu li a {
+            padding: 10px 20px;
+            display: block;
+        }
+
+        .sub-menu li:hover {
+            background-color: #FFA621;
+        }
+
+        /* Show sub-menu on hover for desktop */
+        @media (min-width: 768px) {
+            .menu-item:hover > .sub-menu {
+                display: block;
+            }
+            /* Show nested sub-menu on hover for desktop */
+            .sub-menu li:hover > .sub-menu {
+                display: block;
+            }
+        }
+        
+        /* Mobile Hamburger Icon */
+        .hamburger {
+            display: block; /* Show on mobile */
+            color: white;
+            font-size: 30px;
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: right;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 20px auto; /* Added 20px top/bottom margin to center it */
+            
+            /* IMPORTANT: This ensures the content block is opaque white 
+               and easily readable over the dimmed background. */
+            /*background-color: white; */
+            
+            min-height: 500px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Stronger shadow to lift it off the background */
+            position: relative; /* Ensure it respects z-index above the body::before */
+            z-index: 1;
+        }
+        
+        /* Responsive Overrides (For Desktop/Tablet) */
+        @media (min-width: 768px) {
+            .hamburger {
+                display: none; /* Hide hamburger on desktop */
+            }
+            .menu-list {
+                display: flex; /* Show horizontal menu on desktop */
+            }
+            /* Adjust spacing for wide screens */
+            .header-title h1 {
+                font-size: 2em; /* Slightly larger on wide screens */
+            }
+        }
+        
+        /* Mobile Specific Styling (<= 767px) */
+        @media (max-width: 767px) {
+            /* Reduced size for mobile screens (as requested previously) */
+            .header-title h1 {
+                font-size: 1em;
+                color: #F7E6CA;strong ;
+                padding: 10px 5px;
+            }
+            .header-title h2 {
+                font-size: .7em;
+                color: white; strong ;
+                padding: 0;
+            }    
+            .header-title h3 {
+                font-size: .3em;
+                color: white;
+                padding: 0;  
+                margin: 0;
+            }
+
+            .menu-list {
+                flex-direction: column; /* Stack vertically on mobile */
+                width: 100%;
+                text-align: left;
+            }
+            .menu-list.active {
+                display: flex; /* Show the mobile menu when active */
+            }
+            .menu-item {
+                padding: 10px 20px;
+                border-top: 1px solid #004d40;
+            }
+            /* Mobile Level 1 Sub-menu (flows below parent) */
+            .sub-menu {
+                position: static; 
+                width: 100%;
+                background-color: #BA8E23;
+            }
+            /* Mobile Level 2 Sub-menu (flows below parent L1) */
+            .sub-menu .sub-menu {
+                position: static;
+                width: 100%;
+                background-color: #004d40; /* Slightly different color for nested visibility */
+                padding-left: 20px; /* Indent the nested menu */
+            }
+            
+            /* Show sub-menu on click for mobile */
+            .menu-item.sub-menu-parent.active > .sub-menu {
+                display: block;
+            }
+            /* Show nested sub-menu on click for mobile */
+            .sub-menu-item-parent.active > .sub-menu {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bismillah">
+        பிஸ்மில்லாஹிர் ரஹ்மானிர் ரஹீம்
+    </div>
+
+    <header class="header-title">
+        <h3>அல்லாஹ்வின் கயிற்றைப் பற்றிப் பிடித்துக் கொள்ளுங்கள்</h3>
+        <h1>இளையான்குடி நெசவுப் பட்டடை தொழுகை மேடைப் பள்ளிவாசல்</h1>
+        <h2>இணையவழிச் சேவை</h2>
+    </header>
+
+    <nav>
+        <div class="hamburger" id="hamburger-icon">
+            &#9776; </div>
+
+        <ul class="menu-list" id="main-menu">
+            <li class="menu-item"a href="#home">முகப்பு</a></li>
+            <li class="menu-item"><a href="#about">ஐ.என்.பி பற்றி</a></li>
+            <li class="menu-item"><a href="#finance">நிதிநிலை அறிக்கை</a></li>
+            
+            <li class="menu-item sub-menu-parent" id="services-menu">
+                <a href="#services">சேவைகள்</a>
+                <ul class="sub-menu">
+                    <li><a href="#service-marriage">திருமணச் சான்றிதழ்</a></li>
+                    <li><a href="#service-death">இறப்புச் சான்றிதழ்</a></li>
+                    <li><a href="#service-noc">தடையில்லாச் சான்றிதழ்</a></li>
+                    <li><a href="#service-id">அடையாளச் சான்றிதழ்</a></li>
+                </ul>
+            </li>
+            
+            <li class="menu-item"><a href="#hall">மஹால் முன்பதிவு</a></li>
+            
+            <li class="menu-item sub-menu-parent" id="donation-menu">
+                <a href="#donation">நன்கொடை</a>
+                <ul class="sub-menu">
+                    <li><a href="#donation-kanji">நோன்புக் கஞ்சி</a></li>
+                    <li><a href="#donation-sundha">சந்தா</a></li>
+                    <li><a href="#donation-general">பொது நன்கொடை</a></li>
+                </ul>
+            </li>
+            
+            <li class="menu-item"><a href="#events">நிகழ்வுகள்</a></li>
+            <li class="menu-item"><a href="#complaints">புகார்கள்</a></li>
+            
+            <li class="menu-item sub-menu-parent" id="admin-menu">
+                <a href="#admin">நிர்வாகம்</a>
+                <ul class="sub-menu">
+                    <li><a href="#admin-member">உறுப்பினர் விவரம்</a></li>
+                    <li><a href="#admin-marriage-reg">திருமணப்பதிவு</a></li>
+                    <li><a href="#admin-death-reg">இறப்புப்பதிவு</a></li>
+                    <li><a href="#admin-event-reg">நிகழ்வுப்பதிவு</a></li>
+                    <li><a href="#admin-income">வரவு</a></li>
+                    <li><a href="#admin-expense">செலவு</a></li>
+                    
+                    <li class="sub-menu-item-parent" id="master-table-menu">
+                        <a href="#admin-master">மாஸ்டர் அட்டவணை</a>
+                        <ul class="sub-menu">
+                            <li><a href="#master-fee">கட்டண அட்டவணை</a></li>
+                            <li><a href="#master-income-code">வரவுக்குறியீடு அட்டவணை</a></li>
+                            <li><a href="#master-expense-code">செலவுக்குறியீடு அட்டவணை</a></li>
+                        </ul>
+                    </li>
+                    </ul>
+            </li>
+            
+            <li class="menu-item"><a href="#login">உள்நுழை</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+        <h2 style="font-size: 20px; color: white;">அஸ்ஸலாமு அலைக்கும்</h2>
+        <p>
+            <font color="white">
+            இந்த வலைத்தளப் போர்ட்டலின் நோக்கம், ஜமாஅத் உறுப்பினர்களும் பொதுமக்களும் பள்ளிவாசல் சேவைகளை ஆன்லைனில் பெற உதவுவதாகும். இதன் மூலம் எல்லாவற்றிக்கும் அலுவலகம் செல்வது தவிர்க்கப்படுகிறது.
+        </p>
+        <p>
+            ஜமாஅத் உறுப்பினர்கள் பள்ளிவாசல் நிர்வாகத்தின் ஒவ்வொரு செயல்பாட்டையும் வலைத்தளப் போர்டல் மூலம் கண்காணிக்க அனுமதிப்பதன் மூலம் வெளிப்படையான நிர்வாகத்தை வழங்குதல் உறுதி செய்யப்படுகிறது.
+        </p>     
+    </div>
+
+    <script>
+        // JavaScript for Mobile Menu (Hamburger) Toggle
+        const hamburger = document.getElementById('hamburger-icon');
+        const mainMenu = document.getElementById('main-menu');
+
+        hamburger.addEventListener('click', () => {
+            mainMenu.classList.toggle('active');
+        });
+
+        // Function to handle mobile sub-menu click logic for all levels
+        function setupMobileSubMenuToggle(parentId) {
+            const parentElement = document.getElementById(parentId);
+            
+            // This setup must only happen if we detect a mobile screen
+            if (parentElement && window.innerWidth < 768) {
+                parentElement.addEventListener('click', (e) => {
+                    
+                    // Check if the clicked element is an <a> tag
+                    if (e.target.tagName === 'A') {
+                         // Prevent the link from navigating on mobile click
+                         e.preventDefault();
+                    }
+                    
+                    // Toggle the 'active' class on the parent list item
+                    parentElement.classList.toggle('active');
+                    
+                    // Stop event propagation to prevent immediate closing by parent menu
+                    e.stopPropagation(); 
+                });
+            }
+        }
+        
+        // Setup for Level 1 Sub-menus (which use .sub-menu-parent)
+        setupMobileSubMenuToggle('services-menu');
+        setupMobileSubMenuToggle('donation-menu');
+        setupMobileSubMenuToggle('admin-menu');
+        
+        // Setup for Level 2 Sub-menus (which use .sub-menu-item-parent)
+        setupMobileSubMenuToggle('master-table-menu');
+        
+        // General logic to close mobile menu if an area outside is clicked 
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth < 768 && mainMenu.classList.contains('active')) {
+                let isClickInsideMenu = mainMenu.contains(e.target) || hamburger.contains(e.target);
+                if (!isClickInsideMenu) {
+                    mainMenu.classList.remove('active');
+                    // Also close any active sub-menus
+                    document.querySelectorAll('.sub-menu-parent.active, .sub-menu-item-parent.active').forEach(el => {
+                        el.classList.remove('active');
+                    });
+                }
+            }
+        });
+        
+    </script>
+</body>
+</html>
